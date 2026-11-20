@@ -1,4 +1,4 @@
-name: 🖥️ Free GitHub VPS - SSH + Tailscale
+name: 🖥️ Free GitHub VPS - SSH + GUI + Tailscale
 
 on:
   workflow_dispatch:
@@ -24,7 +24,6 @@ jobs:
     env:
       VPS_USER:         ${{ secrets.VPS_USER     || 'luffy' }}
       VPS_PASSWORD:     ${{ secrets.VPS_PASSWORD || 'luffy@123' }}
-      # This matches your screenshot exactly (no underscore)
       TAILSCALE_AUTHKEY: ${{ secrets.TAILSCALE_AUTHKEY }} 
       VPS_HOSTNAME:     gh-vps-${{ github.run_id }}
 
@@ -56,20 +55,24 @@ jobs:
           TS_IP=$(tailscale ip -4 2>/dev/null | head -n1 || echo "not-connected")
           echo ""
           echo "=================================================="
-          echo "🟢  VPS IS READY"
+          echo "🟢  VPS IS READY (GUI + SSH)"
           echo "=================================================="
           echo "  Tailscale IP : $TS_IP"
           echo "  Username     : $VPS_USER"
           echo "  Password     : $VPS_PASSWORD"
-          echo "  Port         : 22"
+          echo "  SSH Port     : 22"
+          echo "  RDP Port     : 3389"
           echo ""
-          echo "  Connect with :"
+          echo "  Connect via SSH :"
           echo "    ssh $VPS_USER@$TS_IP"
+          echo ""
+          echo "  Connect via Remote Desktop (RDP) :"
+          echo "    Computer : $TS_IP"
+          echo "    Username : $VPS_USER"
           echo "=================================================="
           echo ""
 
       - name: Keep VPS Alive
         run: |
           echo "VPS is running. Do not cancel this job."
-          # Sleep for 6 hours (21,500 seconds) to keep the VPS online until the timeout limit.
           sleep 21500

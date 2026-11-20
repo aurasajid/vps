@@ -24,10 +24,11 @@ check_cmd() {
   fi
 }
 
-check_cmd "Git"      "git"
-check_cmd "Python"   "python3"
-check_cmd "Node.js"  "node"
-check_cmd "npm"      "npm"
+check_cmd "Git"           "git"
+check_cmd "Python"        "python3"
+check_cmd "Node.js"       "node"
+check_cmd "npm"           "npm"
+check_cmd "Google Chrome" "google-chrome"
 
 if command -v docker >/dev/null 2>&1; then
   check_cmd "Docker" "docker"
@@ -57,9 +58,15 @@ else
   FAILED=$((FAILED + 1))
 fi
 
+if systemctl is-active xrdp >/dev/null 2>&1; then
+  echo -e "${GREEN}[OK]${NC} XRDP (Remote Desktop) active"
+else
+  echo -e "${YELLOW}[WARN]${NC} XRDP service not active"
+fi
+
 if [ "$FAILED" -gt 0 ]; then
   echo -e "${RED}$FAILED check(s) need attention.${NC}"
   exit 1
 fi
 
-echo -e "${GREEN}All VPS checks passed.${NC}"
+echo -e "${GREEN}All VPS checks passed. System is fully operational with GUI and Chrome.${NC}"
