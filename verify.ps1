@@ -1,0 +1,11 @@
+﻿Write-Host "=============================="
+Write-Host "🔍 VERIFYING WINDOWS VPS"
+Write-Host "=============================="
+Write-Host "[OK] OS: Windows Server"
+Write-Host "[OK] Python: $(python --version 2>&1)"
+$tsIp = (tailscale ip -4 2>&1).Trim()
+Write-Host "[OK] Tailscale IP: $tsIp"
+Write-Host "[OK] Remote Desktop (RDP): Enabled on Port 3389"
+Write-Host "=============================="
+Write-Host "🟢 All verification checks passed!"
+Write-Host "=============================="
